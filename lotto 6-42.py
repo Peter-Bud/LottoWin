@@ -4,7 +4,7 @@ import csv
 def main():
     temp_list = []
     all_data = []
-    only_true = []
+
 
 
     with open('big_data.csv', newline='') as csvfile:
