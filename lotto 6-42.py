@@ -20,7 +20,14 @@ def main():
 
     super_ball = all_data[6::7]
     del all_data[6::7]
-    print( all_data)
+    occur = []
+
+    for k in all_data
 
 
-main()
+
+
+
+
+
+
