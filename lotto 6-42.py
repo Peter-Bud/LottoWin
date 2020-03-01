@@ -20,9 +20,13 @@ def main():
 
     super_ball = all_data[6::7]
     del all_data[6::7]
-    occur = []
+    chance = []
 
-    for k in all_data
+    for i in range(1,42):
+        chance.append((all_data.count(i))/len(all_data)*100)
+    print(chance)
+
+main()
 
 
 
