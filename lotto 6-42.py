@@ -22,9 +22,29 @@ def main():
     del all_data[6::7]
     chance = []
 
-    for i in range(1,42):
+    for i in range(0,42):
         chance.append((all_data.count(i))/len(all_data)*100)
-    print(chance)
+
+
+
+    average= sum(chance)/len(chance)
+    min_list=[]
+    max_list=[]
+    for index, item in enumerate(chance):
+
+        if item<average:
+            print(index+1,item)
+            min_list.append(index+1)
+        elif item>=average:
+            max_list.append(index+1)
+
+    print(max_list)
+    print(min_list)
+
+
+
+
+
 
 main()
 
