@@ -2,7 +2,11 @@ import csv
 from random import sample, choice
 
 
-def main():
+def parser():
+    pass
+
+
+def transform():
     temp_list = []
     all_data = []
 
@@ -18,24 +22,34 @@ def main():
 
     super_ball = all_data[6::7]
     del all_data[6::7]
+    return all_data, super_ball
+
+
+def calculate():
+    all_data, super_ball = transform()
     chance = []
 
     for i in range(0, 42):
         chance.append((all_data.count(i)) / len(all_data) * 100)
-
     average = sum(chance) / len(chance)
     min_list = []
     max_list = []
+
     for index, item in enumerate(chance):
 
         if item < average:
-
             min_list.append(index + 1)
         elif item >= average:
             max_list.append(index + 1)
 
+    return min_list, max_list, super_ball
+
+
+def result():
+    min_list, max_list, super_ball = calculate()
     print('First attempt: ', sample(min_list, 6), 'Superball', '', choice(super_ball))
     print('The second attempt: ', sample(max_list, 6), 'Superball', '', choice(super_ball))
 
 
-main()
+if __name__ == '__main__':
+    result()
