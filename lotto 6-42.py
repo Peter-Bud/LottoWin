@@ -3,19 +3,30 @@ from bs4 import BeautifulSoup
 import csv
 from random import sample, choice
 
-URL='https://igra.msl.ua/megalote/uk/archive'
-HEADERS={'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
-         'accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'}
+URL = 'https://igra.msl.ua/megalote/uk/archive'
+HEADERS = {
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
+    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'}
+
 
 def get_html(url, params=None):
-    req=requests.get(url, headers=HEADERS, params=params)
+    req = requests.get(url, headers=HEADERS, params=params)
     return req
 
 
+def content(html):
+    soup = BeautifulSoup(html, 'html.parser')
+
 
 def parse():
-    html=get_html(URL)
+    html = get_html(URL)
+    if html.status_code == 200:
+        content(html.text)
+    else:
+        print('Error')
+
     print(html)
+
 
 parse()
 
