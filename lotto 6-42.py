@@ -27,6 +27,8 @@ def parse():
         content(html.text)
     else:
         print('Error')
+    print(html)
+parse()
 
 
 
