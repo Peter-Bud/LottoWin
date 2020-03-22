@@ -10,15 +10,18 @@ HEADERS = {
 
 
 def get_html(url, params=None):
+    ''''''
     req = requests.get(url, headers=HEADERS, params=params)
     return req
 
 
 def content(html):
+    ''''''
     soup = BeautifulSoup(html, 'html.parser')
 
 
 def parse():
+    ''''''
     html = get_html(URL)
     if html.status_code == 200:
         content(html.text)
