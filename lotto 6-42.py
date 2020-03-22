@@ -58,18 +58,21 @@ def calculate():
     chance = []  # empty list for calculating hance of chance of falling out
 
     for i in range(0, 42):  # 0-42 posible total numbers
-        chance.append((all_data.count(i)) / len(all_data) * 100)    #calculate chance of fall out by iterating dividing occurence 1-42 numbers to len all data list.
-    average = sum(chance) / len(chance)     #determine average chance of fall out for all 1-42 numbers
-    min_list = []       #emty list for further adding numbers which chance of fall are lower than average
-    max_list = []       #emty list for further adding numbers which chance of fall are bigger than average
+        chance.append((all_data.count(i)) / len(
+            all_data) * 100)  # calculate chance of fall out by iterating dividing occurence 1-42 numbers to len all data list.
+    average = sum(chance) / len(chance)  # determine average chance of fall out for all 1-42 numbers
+    min_list = []  # emty list for further adding numbers which chance of fall are lower than average
+    max_list = []  # emty list for further adding numbers which chance of fall are bigger than average
 
     for index, item in enumerate(chance):
 
         if item < average:
-            min_list.append(index + 1)  #determine and adding to min list numbers which lower chance to fall out than average chance
+            min_list.append(
+                index + 1)  # determine and adding to min list numbers which lower chance to fall out than average chance
 
         elif item >= average:
-            max_list.append(index + 1)  #determine and adding to max list numbers which bigger chance to fall out than average chance
+            max_list.append(
+                index + 1)  # determine and adding to max list numbers which bigger chance to fall out than average chance
 
     return min_list, max_list, super_ball
 
