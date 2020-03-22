@@ -28,7 +28,6 @@ def parse():
 
 
 
-parse()
 
 
 def transform():
