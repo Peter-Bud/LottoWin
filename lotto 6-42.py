@@ -25,7 +25,7 @@ def parse():
     else:
         print('Error')
 
-    print(html)
+
 
 
 parse()
