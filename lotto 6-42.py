@@ -18,6 +18,9 @@ def get_html(url, params=None):
 def content(html):
     ''''''
     soup = BeautifulSoup(html, 'html.parser')
+    items=soup.find_all(class_='ball-number')
+    print(items)
+
 
 
 def parse():
@@ -29,6 +32,7 @@ def parse():
         print('Error')
     print(html)
 parse()
+
 
 
 
