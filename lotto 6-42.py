@@ -19,7 +19,13 @@ def content(html):
     ''''''
     soup = BeautifulSoup(html, 'html.parser')
     items=soup.find_all(class_='ball-number')
-    print(items)
+
+    numbers = []
+
+    for item in items:
+        numbers.append(item.get_text())
+
+    print(numbers)
 
 
 
