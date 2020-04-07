@@ -14,6 +14,17 @@ def get_html(url, params=None):
     req = requests.get(url, headers=HEADERS, params=params)
     return req
 
+def pages_count(html):
+    soup = BeautifulSoup(html, 'html.parser')
+
+    paginator=[]
+    for item in soup.find(class_='last'):
+        paginator.append(item.get('href'))
+
+    for i in paginator:
+        last_page=i[-3::1]
+        return last_page
+
 
 def content(html):
     ''''''
@@ -26,14 +37,16 @@ def content(html):
         numbers.append(item.get_text())
 
     print(numbers)
-
+    return numbers
 
 
 def parse():
     ''''''
     html = get_html(URL)
     if html.status_code == 200:
-        content(html.text)
+        last_page=pages_count(html.text)
+        print(last_page)
+        #content(html.text)
     else:
         print('Error')
     print(html)
