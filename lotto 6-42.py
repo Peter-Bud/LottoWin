@@ -36,7 +36,7 @@ def content(html):
     for item in items:
         numbers.append(item.get_text())
 
-    print(numbers)
+
     return numbers
 
 
@@ -44,8 +44,14 @@ def parse():
     ''''''
     html = get_html(URL)
     if html.status_code == 200:
-        last_page=pages_count(html.text)
+        all_numbers=[]
+        last_page=int(pages_count(html.text))
         print(last_page)
+        for page in range (1, last_page+1):
+            print(f'parsing {page} from {last_page}')
+            html=get_html(URL, params={'page': page})
+            all_numbers.extend(content(html.text))
+        print(all_numbers)
         #content(html.text)
     else:
         print('Error')
