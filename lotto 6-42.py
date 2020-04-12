@@ -7,6 +7,7 @@ URL = 'https://igra.msl.ua/megalote/uk/archive'
 HEADERS = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'}
+File = 'big_data.csv'
 
 
 def get_html(url, params=None):
@@ -14,54 +15,61 @@ def get_html(url, params=None):
     req = requests.get(url, headers=HEADERS, params=params)
     return req
 
+
 def pages_count(html):
     soup = BeautifulSoup(html, 'html.parser')
 
-    paginator=[]
+    paginator = []
     for item in soup.find(class_='last'):
         paginator.append(item.get('href'))
 
     for i in paginator:
-        last_page=i[-3::1]
+        last_page = i[-3::1]
         return last_page
 
 
 def content(html):
     ''''''
     soup = BeautifulSoup(html, 'html.parser')
-    items=soup.find_all(class_='ball-number')
+    items = soup.find_all(class_='ball-number')
 
     numbers = []
-
+    probe=[]
     for item in items:
-        numbers.append(item.get_text())
+        numbers.append(int(item.get_text()))
 
 
     return numbers
+
+
+def save_file(numbers, file):
+    with open(file, 'w', newline='') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter='\n', quotechar='|')
+        for i in numbers:
+            spamwriter.writerow(i)
 
 
 def parse():
     ''''''
     html = get_html(URL)
     if html.status_code == 200:
-        all_numbers=[]
-        last_page=int(pages_count(html.text))
-        print(last_page)
-        for page in range (1, last_page+1):
+        all_numbers = []
+        last_page = int(pages_count(html.text))
+
+        for page in range(1, 3):
             print(f'parsing {page} from {last_page}')
-            html=get_html(URL, params={'page': page})
-            all_numbers.extend(content(html.text))
-        print(all_numbers)
-        #content(html.text)
+            html = get_html(URL, params={'page': page})
+            all_numbers.append(content(html.text))
+
+        save_file(all_numbers, File)
+
+        # content(html.text)'func probe'
     else:
         print('Error')
     print(html)
+
+
 parse()
-
-
-
-
-
 
 
 def transform():
