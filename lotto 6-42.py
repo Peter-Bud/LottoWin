@@ -8,6 +8,7 @@ HEADERS = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'}
 File = 'big_data.csv'
+S_FILE='s_ball.csv'
 
 
 def get_html(url, params=None):
@@ -27,16 +28,32 @@ def pages_count(html):
         last_page = i[-3::1]
         return last_page
 
+def content_superball(html):
+    soup = BeautifulSoup(html, 'html.parser')
+    superball = soup.find_all(class_='ball ball-black archive_ball')
+
+
+    s_ball = []
+
+    for item in superball:
+        s_ball.append(int(item.get_text()))
+
+
+    return s_ball
 
 def content(html):
     ''''''
     soup = BeautifulSoup(html, 'html.parser')
-    items = soup.find_all(class_='ball-number')
+    items = soup.find_all( class_='ball archive_ball ball-red') + soup.find_all( class_='ball archive_ball ball-yellow') +soup.find_all( class_='ball archive_ball ball-grey')
+
 
     numbers = []
-    probe=[]
+    s_ball = []
+
     for item in items:
         numbers.append(int(item.get_text()))
+
+
 
 
     return numbers
@@ -54,14 +71,17 @@ def parse():
     html = get_html(URL)
     if html.status_code == 200:
         all_numbers = []
+        s_ball= []
         last_page = int(pages_count(html.text))
 
-        for page in range(1, 3):
+        for page in range(1, 50):
             print(f'parsing {page} from {last_page}')
             html = get_html(URL, params={'page': page})
             all_numbers.append(content(html.text))
+            s_ball.append(content_superball(html.text))
 
         save_file(all_numbers, File)
+        save_file(s_ball, S_FILE)
 
         # content(html.text)'func probe'
     else:
@@ -76,7 +96,8 @@ def transform():
     """get csv file and return 2 lists with numbers"""
     temp_list = []  # empty list for temporary computation within function
     all_data = []  # empty list for adding all numbers from csv file
-
+    s_temp_list=[]
+    super_ball=[]
     with open('big_data.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')  # open csv file
 
@@ -87,8 +108,19 @@ def transform():
             new_int = int(i)
             all_data.append(new_int)  # Transform all numbersfrom str to int and add to all_data list
 
-    super_ball = all_data[6::7]  # determing super ball (every 7 numbers
-    del all_data[6::7]  # deleting superball from all plural
+    with open('s_ball.csv', newline='') as csvfile_s:
+        spamreader = csv.reader(csvfile_s, delimiter=' ', quotechar='|')  # open csv file
+
+        for row in spamreader:
+            s_temp_list.append((', '.join(row)))  # add all numbers from csv file to temp_list
+
+        for i in s_temp_list:
+            new_int = int(i)
+            super_ball.append(new_int)  # Transform all numbersfrom str to int and add to all_data list
+    print(super_ball)
+
+    #super_ball = all_data[6::7]  # determing super ball (every 7 numbers
+    #del all_data[6::7]  # deleting superball from all plural
     return all_data, super_ball
 
 
