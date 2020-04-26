@@ -73,13 +73,19 @@ def parse():
         all_numbers = []
         s_ball= []
         last_page = int(pages_count(html.text))
-
-        for page in range(1, 50):
-            print(f'parsing {page} from {last_page}')
-            html = get_html(URL, params={'page': page})
-            all_numbers.append(content(html.text))
-            s_ball.append(content_superball(html.text))
-
+        inp = int(input('enter the number of pages to calculate'))
+        if inp<=last_page:
+            for page in range(1, inp):
+                print(f'parsing {page} from {last_page}')
+                html = get_html(URL, params={'page': page})
+                all_numbers.append(content(html.text))
+                s_ball.append(content_superball(html.text))
+            else:
+                for page in range(1, last_page):
+                    print(f'parsing {page} from {last_page}')
+                    html = get_html(URL, params={'page': page})
+                    all_numbers.append(content(html.text))
+                    s_ball.append(content_superball(html.text))
         save_file(all_numbers, File)
         save_file(s_ball, S_FILE)
 
